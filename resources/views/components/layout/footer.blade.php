@@ -9,7 +9,7 @@ flex-column">
             </script>
             , made with by
             <a href="https://themeselection.com" target="_blank" class="footer-link fw-
-bolder">ThemeSelection</a>
+bolder"><b>STTI NIIT I-TECH</b></a>
         </div>
     </div>
 </footer>
