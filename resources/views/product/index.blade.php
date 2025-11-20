@@ -3,21 +3,19 @@
 @section('content')
 <div class="container-xxl flex-grow-1 container-p-y">
     {{-- Breadcrumb dinamis --}}
-    <x-breadcrumb :items="[
-'Produk' => route('products.index'),
-'Daftar Produk' => ''
-]" />
+    <x-breadcrumb :items="['Produk' => route('products.index'),'Daftar Produk' => '']" />
     <!-- Responsive Table -->
     <div class="card">
         <div class="card-header d-flex justify-content-between align-items-center">
-            <h5 class="mb-0">Daftar Produk</h5>
+            <div class="d-flex align-items-center gap-2">
+                <h5 class="mb-0">Daftar Produk</h5>
+                <a href="{{ route('products.create') }}" class="btn btn-primary btn-sm">
+                    <i class="bx bx-plus"></i> Tambah Data
+                </a>
+            </div>
             <!-- Search Form -->
-            <form action="{{ route('products.index') }}" method="GET" class="d-flex"
-                style="width: 300px;">
-                <input type="text" name="search"
-                    class="form-control form-control me-2"
-                    placeholder="Cari..."
-                    value="{{ request('search') }}">
+            <form action="{{ route('products.index') }}" method="GET" class="d-flex" style="width: 300px;">
+                <input type="text" name="search" class="w-75 pr-10 border-gray-300 rounded-md shadow-sm focus:bolder-blue-500 focus-ring-blue-200 me-2" placeholder="Cari..." value="{{ request('search') }}">
                 <button class="btn btn-primary btn-sm" type="submit">
                     <i class="bx bx-search"></i>
                 </button>
@@ -31,6 +29,7 @@
                             <th>No</th>
                             <th>Foto</th>
                             <th>Nama</th>
+                            <th>Kategori</th>
                             <th>Deskripsi</th>
                             <th>Harga</th>
                             <th>Stok</th>
@@ -38,95 +37,68 @@
                         </tr>
                     </thead>
                     <tbody>
+                        @forelse ($products as $product)
                         <tr>
-                            <td>1</td>
-                            <td><img src="../assets/img/avatars/5.png" alt="Produk 1" class="img-
-thumbnail" width="80"></td>
-                            <td>Meja Kantor Kayu</td>
-                            <td>Meja kantor berbahan kayu jati berkualitas tinggi.</td>
-                            <td>Rp 2.500.000</td>
-                            <td>10</td>
+                            <td>{{ $loop->iteration + ($products->currentPage() - 1) * $products->perPage() }}</td>
                             <td>
-                                <a href="#" class="btn btn-sm btn-primary">
+                                @if($product->foto)
+                                <img src="{{ $product->foto ? asset('storage/' . $product->foto) : asset('assets/img/product-default.png') }}" alt="{{ $product->nama }}" class="img-thumbnail" width="80" />
+                                @endif
+                            </td>
+                            <td>{{ $product->nama }}</td>
+                            <td>{{ $product->kategori ? $product->kategori->nama : '-' }}</td>
+                            <td>{{ Str::limit($product->deskripsi, 50) }}</td>
+                            <td>{{ number_format($product->harga) }}</td>
+                            <td>{{ $product->stok }}</td>
+                            <td>
+                                <a href="{{ route('products.edit', $product->id) }}" class="btn btn-sm btn-primary">
                                     <i class="bx bx-edit"></i>
                                 </a>
-                                <a href="#" class="btn btn-sm btn-danger">
-                                    <i class="bx bx-trash"></i>
-                                </a>
+                                <form id="delete-form-{{ $product->id }}" action="{{route('products.destroy', $product->id) }}" method="POST" style="display:inline;">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="button" class="btn btn-sm btn-danger" onclick="deleteConfirm('{{ $product->id }}', '{{ $product->name }}')">
+                                        <i class="bx bx-trash"></i>
+                                    </button>
+                                </form>
                             </td>
                         </tr>
+                        @empty
                         <tr>
-                            <td>2</td>
-                            <td><img src="../assets/img/avatars/5.png" alt="Produk 2" class="img-thumbnail" width="80"></td>
-                            <td>Kursi Ergonomis</td>
-                            <td>Kursi kantor ergonomis dengan penyangga punggung yang
-                                nyaman.</td>
-                            <td>Rp 1.250.000</td>
-                            <td>15</td>
-                            <td>
-                                <a href="#" class="btn btn-sm btn-primary">
-                                    <i class="bx bx-edit"></i>
-                                </a>
-                                <a href="#" class="btn btn-sm btn-danger">
-                                    <i class="bx bx-trash"></i>
-                                </a>
+                            <td colspan="8" class="text-center text-muted">
+                                <i class="bx bx-info-circle"></i> Belum ada data produk.
                             </td>
                         </tr>
-                        <tr>
-                            <td>3</td>
-                            <td><img src="../assets/img/avatars/5.png" alt="Produk 3" class="img-
-thumbnail" width="80"></td>
-                            <td>Lemari Arsip Besi</td>
-                            <td>Lemari arsip besi 4 pintu untuk menyimpan dokumen penting.</td>
-                            <td>Rp 3.750.000</td>
-                            <td>5</td>
-                            <td>
-                                <a href="#" class="btn btn-sm btn-primary">
-                                    <i class="bx bx-edit"></i>
-                                </a>
-                                <a href="#" class="btn btn-sm btn-danger">
-                                    <i class="bx bx-trash"></i>
-                                </a>
-                            </td>
-                        </tr>
+                        @endforelse
                     </tbody>
                 </table>
             </div>
             <!-- Pagination -->
             <div class="mt-3 d-flex justify-content-center">
-                <nav aria-label="Page navigation">
-                    <ul class="pagination">
-                        <li class="page-item first">
-                            <a class="page-link" href="javascript:void(0);"><i class="tf-icon bx bx-chevrons-left"></i></a>
-                        </li>
-                        <li class="page-item prev">
-                            <a class="page-link" href="javascript:void(0);"><i class="tf-icon bx bx-chevron-left"></i></a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="javascript:void(0);">1</a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="javascript:void(0);">2</a>
-                        </li>
-                        <li class="page-item active">
-                            <a class="page-link" href="javascript:void(0);">3</a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="javascript:void(0);">4</a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="javascript:void(0);">5</a>
-                        </li>
-                        <li class="page-item next">
-                            <a class="page-link" href="javascript:void(0);"><i class="tf-icon bx bx-chevron-right"></i></a>
-                        </li>
-                        <li class="page-item last">
-                            <a class="page-link" href="javascript:void(0);"><i class="tf-icon bx bx-chevrons-right"></i></a>
-                        </li>
-                    </ul>
-                </nav>
+                {{ $products->links('pagination::bootstrap-5') }}
             </div>
         </div>
     </div>
 </div>
 @endsection
+@push('scripts')
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    function deleteConfirm(id) {
+        Swal.fire({
+            title: 'Yakin mau hapus produk ini?',
+            text: "Data yang sudah dihapus tidak bisa dikembalikan!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Ya, Hapus!',
+            cancelButtonText: 'Batal'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.getElementById('delete-form-' + id).submit();
+            }
+        });
+    }
+</script>
+@endpush
