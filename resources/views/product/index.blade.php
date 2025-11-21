@@ -4,6 +4,13 @@
 <div class="container-xxl flex-grow-1 container-p-y">
     {{-- Breadcrumb dinamis --}}
     <x-breadcrumb :items="['Produk' => route('products.index'),'Daftar Produk' => '']" />
+    @if(session('success'))
+    <div class="alert alert-primary alert-dismissible" role="alert">
+        {{ session('success') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-
+            label="Close"></button>
+    </div>
+    @endif
     <!-- Responsive Table -->
     <div class="card">
         <div class="card-header d-flex justify-content-between align-items-center">
