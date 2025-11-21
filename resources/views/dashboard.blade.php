@@ -9,12 +9,12 @@
                 <div class="d-flex align-items-end row">
                     <div class="col-sm-7">
                         <div class="card-body">
-                            <h5 class="card-title text-primary">Selamat datang admin website!
+                            <h5 class="card-title text-primary">Selamat datang di halaman Dashboard UTS PPWL.
                             </h5>
-                            <p class="mb-4">
+                            <!-- <p class="mb-4">
                                 selamat bekerja <span class="fw-bold"></span> nikmati harimu
                                 dengan lebih baik
-                            </p>
+                            </p> -->
                             <a href="javascript:;" class="btn btn-sm btn-outline-primary">Lihat
                                 Data</a>
                         </div>

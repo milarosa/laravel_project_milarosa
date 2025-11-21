@@ -70,8 +70,7 @@ L14,17 C12.8954305,17 12,16.1045695 12,15 C12,14.5672596 12.1403557,14.1461923
                                     </g>
                                     <g
                                         id="Triangle"
-                                        transform="translate(19.000000, 11.000000) rotate(-300.000000) translate(-
-19.000000, -11.000000) ">
+                                        transform="translate(19.000000, 11.000000) rotate(-300.000000) translate(-19.000000, -11.000000) ">
                                         <use fill="#696cff" xlink:href="#path-5"></use>
                                         <use fill-opacity="0.2" fill="#FFFFFF" xlink:href="#path-5"></use>
                                     </g>
