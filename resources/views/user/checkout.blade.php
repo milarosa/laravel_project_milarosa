@@ -45,27 +45,25 @@
                 @csrf
                 <div class="mb-3">
                     <label for="nama" class="form-label">Nama Lengkap</label>
-                    <input type="text" name="nama" id="nama" class="form-control" required>
+                    <input type="text" name="nama" id="nama" value="{{ old('nama',$user->name ?? '') }}" class="form-control" disabled>
                 </div>
                 <div class="mb-3">
                     <label for="alamat" class="form-label">Alamat Pengiriman</label>
-                    <textarea name="alamat" id="alamat" class="form-control" rows="3"
-                        required></textarea>
+                    <textarea name="alamat" id="alamat" class="form-control"
+                        rows="3" required>{{ old('alamat', $user->alamat ?? '') }}</textarea>
                 </div>
                 <div class="mb-3">
                     <label for="telepon" class="form-label">No. Telepon</label>
-                    <input type="text" name="telepon" id="telepon" class="form-control" required>
+                    <input type="text" name="telepon" id="telepon" value="{{old('telepon', $user->telepon ?? '') }}" class="form-control" required>
                 </div>
                 <div class="mb-3">
-                    <label for="metode" class="form-label">Metode Pembayaran</label>
-                    <select name="metode" id="metode" class="form-select" required>
-                        <option value="">-- Pilih Metode --</option>
-                        <option value="transfer">Transfer Bank</option>
-                        <option value="cod">Cash on Delivery (COD)</option>
-                        <option value="ewallet">E-Wallet (OVO, Dana, GoPay)</option>
-                    </select>
+                    <label for="metode" class="form-label">Metode
+                        Pembayaran</label>
+                    <input type="text" value="Transfer Bank" class="form-control"
+                        disabled>
+                    <input type="hidden" name="metode" value="transfer">
                 </div>
-                <button type="submit" class="btn btn-success w-100 btn-lg">Proses
+                <button type="submit" class="btn btn-primary w-100 btn-lg">Proses
                     Pembayaran</button>
             </form>
         </div>

@@ -22,6 +22,8 @@ class CartController extends Controller
     {
         $cart = session()->get('cart', []);
         if (isset($cart[$product->id])) {
+            $cart[$product->id]['quantity']++;
+        } else {
             $cart[$product->id] = [
                 "nama" => $product->nama,
                 "quantity" => 1,
@@ -30,7 +32,7 @@ class CartController extends Controller
             ];
         }
         session()->put('cart', $cart);
-        return redirect()->route('cart.index')->with('success', 'Produk ditambahkan kekeranjang!');
+        return redirect()->route('cart.index')->with('success', 'Produk ditambahkan ke keranjang!');
     }
     /**
      * Menghapus produk dari keranjang

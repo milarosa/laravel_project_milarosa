@@ -20,7 +20,10 @@
                         <div class="card-body text-center">
                             <h5 class="card-title">{{ $product->nama }}</h5>
                             <p class="card-text text-muted">Rp {{ number_format($product->harga, 0, ',', '.')}}</p>
-                            <a href="#" class="btn btn-outline-primary">Produk Detail </a>
+                            <a href="{{ route('products.show', $product->id) }}"
+                                class="btn btn-outline-primary">
+                                Produk Detail
+                            </a>
                         </div>
                     </div>
                 </div>
